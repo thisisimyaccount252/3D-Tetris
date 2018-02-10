@@ -301,6 +301,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PivotPoint: {fileID: 66703343}
   RotationSpeed: 10
+  ScrollSpeed: 10
+  ZoomType: 1
 --- !u!1 &707732092
 GameObject:
   m_ObjectHideFlags: 0
