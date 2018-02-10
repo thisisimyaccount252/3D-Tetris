@@ -1,23 +1,54 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
     private float gameTimer;
+    private float gameCeiling;
+    private List<GameObject> FloorTiles;
 
+    
+
+    #region Controls
+    private KeyCode RotateBlockLeftKey = KeyCode.A;
+    private KeyCode RotateBlockRightKey = KeyCode.D;
+    #endregion Controls
+
+    // TODO: Public or private?
+    public GameObject Tetromino;
     public float CurrentIncrement; // The tick systesm for how often a block should move
 
 	// Use this for initialization
 	void Start () {
         gameTimer = 0;
+        gameCeiling = 7.5f;
+        GenerateTetromino();
 
         // TODO: Do I need this?
-        List<GameObject> FloorTiles = new List<GameObject>();
+        FloorTiles = new List<GameObject>();
+        GenerateFloorTiles();
+	}
 
+    // Update is called once per frame
+    void FixedUpdate () {
+        gameTimer++;
+
+        if (gameTimer >= CurrentIncrement)
+        {
+            // Move the Tetronimo down by the fixed distance
+            Debug.Log(gameTimer);
+            DropPiece();
+            gameTimer = 0;
+        }
+	}
+
+
+    void GenerateFloorTiles()
+    {
         float lowerBound = -4.5f;
         float upperBound = 5.5f;
-        
         float tileHeight = 0.01f;
 
 
@@ -38,17 +69,17 @@ public class GameController : MonoBehaviour {
                 FloorTiles.Add(cube);
             }
         }
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-        gameTimer++;
+    }
 
-        if (gameTimer >= CurrentIncrement)
-        {
-            // Move the Tetronimo down by the fixed distance
-            Debug.Log(gameTimer);
-            gameTimer = 0;
-        }
-	}
+    void GenerateTetromino()
+    {
+        // TODO: Create actual tetronimo pieces (pieces at random)
+        Tetromino = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        Tetromino.transform.position = new Vector3(.5f, gameCeiling, .5f);
+    }
+
+    void DropPiece()
+    {
+        Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, Tetromino.transform.position.y - 1, Tetromino.transform.position.z);
+    }
 }

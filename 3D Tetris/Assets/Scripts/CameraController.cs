@@ -24,6 +24,7 @@ public class CameraController : MonoBehaviour {
     #endregion Privates
 
     #region Controls
+    // TODO: Public for mapping controls???
     private KeyCode resetCameraKey = KeyCode.R;
     private int rotateCameraMouseButton = 2;
     #endregion Controls
@@ -104,7 +105,6 @@ public class CameraController : MonoBehaviour {
         var scrollInput = Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
 
         var currentCameraDistance = currentOffset.magnitude;
-        Debug.Log(string.Format("Old Magnitude: {0}", currentCameraDistance));
         if (scrollInput != 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, PivotPoint.transform.position, scrollInput);
