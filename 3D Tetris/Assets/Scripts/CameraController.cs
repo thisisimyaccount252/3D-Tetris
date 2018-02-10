@@ -16,7 +16,6 @@ public class CameraController : MonoBehaviour {
     private Vector3 startingOffset;
     private Vector3 currentOffset;
     private Quaternion startingRotation;
-    private Vector3 startingPosition;
     
     private float minFov = 15;
     private float maxFov = 90;
@@ -39,7 +38,6 @@ public class CameraController : MonoBehaviour {
 
         // resetting things
         startingRotation = transform.rotation;
-        startingPosition = transform.position;
     }
 	
 	// Update is called once per frame

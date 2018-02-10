@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour {
     private float gameTimer;
     private float gameCeiling;
     private List<GameObject> FloorTiles;
-
+    private Vector3 PieceStartingPosition;
     
 
     #region Controls
@@ -24,6 +24,8 @@ public class GameController : MonoBehaviour {
 	void Start () {
         gameTimer = 0;
         gameCeiling = 7.5f;
+        PieceStartingPosition = new Vector3(-0.5f, gameCeiling, -4.5f);
+
         GenerateTetromino();
 
         // TODO: Do I need this?
@@ -75,7 +77,7 @@ public class GameController : MonoBehaviour {
     {
         // TODO: Create actual tetronimo pieces (pieces at random)
         Tetromino = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        Tetromino.transform.position = new Vector3(.5f, gameCeiling, .5f);
+        Tetromino.transform.position = new Vector3(-0.5f, gameCeiling, -4.5f);
     }
 
     void DropPiece()
