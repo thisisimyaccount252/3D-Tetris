@@ -20,9 +20,6 @@ public class CameraController : MonoBehaviour {
     
     private float minFov = 15;
     private float maxFov = 90;
-    //private float cameraDistanceMin = 5;
-    //private float cameraDistanceMax = 20;
-    //private float cameraDistance = 10;
 
     #endregion Privates
 
