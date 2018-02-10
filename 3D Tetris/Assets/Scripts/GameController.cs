@@ -37,6 +37,8 @@ public class GameController : MonoBehaviour {
     void FixedUpdate () {
         gameTimer++;
 
+        RotateTetromino();
+
         if (gameTimer >= CurrentIncrement)
         {
             // Move the Tetronimo down by the fixed distance
@@ -46,6 +48,20 @@ public class GameController : MonoBehaviour {
         }
 	}
 
+    private void RotateTetromino()
+    {
+        if (Input.GetKeyDown(RotateBlockLeftKey))
+        {
+            Tetromino.transform.Rotate(Vector3.forward, -90, Space.Self);
+            //Tetromino.transform.Rotate(Vector3.forward, -90, Space.World);
+        }
+
+        if (Input.GetKeyDown(RotateBlockRightKey))
+        {
+            Tetromino.transform.Rotate(Vector3.forward, 90, Space.Self);
+            //Tetromino.transform.Rotate(Vector3.forward, 90, Space.World);
+        }
+    }
 
     void GenerateFloorTiles()
     {
@@ -78,6 +94,7 @@ public class GameController : MonoBehaviour {
         // TODO: Create actual tetronimo pieces (pieces at random)
         Tetromino = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Tetromino.transform.position = new Vector3(-0.5f, gameCeiling, -4.5f);
+        Tetromino.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/CageFace") as Texture2D;
     }
 
     void DropPiece()
