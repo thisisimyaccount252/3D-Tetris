@@ -302,7 +302,6 @@ MonoBehaviour:
   PivotPoint: {fileID: 66703343}
   RotationSpeed: 10
   ScrollSpeed: 30
-  ZoomType: 1
 --- !u!1 &707732092
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,7 +367,7 @@ MeshCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Convex: 1
+  m_Convex: 0
   m_CookingOptions: 14
   m_SkinWidth: 0.01
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
@@ -404,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tetromino: {fileID: 0}
-  CurrentIncrement: 60
+  CurrentIncrement: 20
 --- !u!54 &707732098
 Rigidbody:
   m_ObjectHideFlags: 0
