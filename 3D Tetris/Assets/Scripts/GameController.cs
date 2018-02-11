@@ -38,7 +38,7 @@ public class GameController : MonoBehaviour
     {
         gameTimer = 0;
         gameCeiling = 7.5f;
-        PieceStartingPosition = new Vector3(-0.5f, gameCeiling, -4.5f);
+        PieceStartingPosition = new Vector3(0.5f, gameCeiling, 0.5f);
 
         GenerateTetromino();
 
