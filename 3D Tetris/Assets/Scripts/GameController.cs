@@ -17,8 +17,14 @@ public class GameController : MonoBehaviour
 
 
     #region Controls
-    private KeyCode RotateBlockLeftKey = KeyCode.A;
-    private KeyCode RotateBlockRightKey = KeyCode.D;
+    // By default, these keys just rotate the tetromino
+    private KeyCode UpKey = KeyCode.W;
+    private KeyCode LeftKey = KeyCode.A;
+    private KeyCode DownKey = KeyCode.S;
+    private KeyCode RightKey = KeyCode.D;
+
+    // holding shift and pressing one of these keys will move the tetromino
+    private KeyCode MoveKey = KeyCode.LeftShift;
     #endregion Controls
 
     // TODO: Public or private?
@@ -51,7 +57,7 @@ public class GameController : MonoBehaviour
 
         if (gameTimer >= CurrentIncrement)
         {
-            // Move the Tetronimo down by the fixed distance
+            // Move the Tetromino down by the fixed distance
             DropPiece();
             gameTimer = 0;
         }
@@ -59,14 +65,57 @@ public class GameController : MonoBehaviour
 
     private void RotateTetromino()
     {
-        if (Input.GetKeyDown(RotateBlockLeftKey))
+        if (Input.GetKeyDown(UpKey))
         {
-            Tetromino.transform.Rotate(Vector3.forward, 90, Space.Self);
+            if (Input.GetKey(MoveKey))
+            {
+                var newZ = Tetromino.transform.position.z + 1;
+                Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, Tetromino.transform.position.y, newZ);
+            }
+            else
+            {
+                Tetromino.transform.Rotate(Vector3.right, 90, Space.World);
+                
+            }
         }
 
-        if (Input.GetKeyDown(RotateBlockRightKey))
+        if (Input.GetKeyDown(LeftKey))
         {
-            Tetromino.transform.Rotate(Vector3.forward, -90, Space.Self);
+            if (Input.GetKey(MoveKey))
+            {
+                var newX = Tetromino.transform.position.x - 1;
+                Tetromino.transform.position = new Vector3(newX, Tetromino.transform.position.y, Tetromino.transform.position.z);
+            }
+            else
+            {
+                Tetromino.transform.Rotate(Vector3.forward, 90, Space.World);
+            }
+        }
+
+        if (Input.GetKeyDown(DownKey))
+        {
+            if (Input.GetKey(MoveKey))
+            {
+                var newZ = Tetromino.transform.position.z - 1;
+                Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, Tetromino.transform.position.y, newZ);
+            }
+            else
+            {
+                Tetromino.transform.Rotate(Vector3.right, -90, Space.World);
+            }
+        }
+
+        if (Input.GetKeyDown(RightKey))
+        {
+            if (Input.GetKey(MoveKey))
+            {
+                var newX = Tetromino.transform.position.x + 1;
+                Tetromino.transform.position = new Vector3(newX, Tetromino.transform.position.y, Tetromino.transform.position.z);
+            }
+            else
+            {
+                Tetromino.transform.Rotate(Vector3.forward, -90, Space.World);
+            }
         }
     }
 
@@ -109,7 +158,7 @@ public class GameController : MonoBehaviour
 
     void GenerateTetromino()
     {
-        // TODO: Create actual tetronimo pieces (pieces at random)
+        // TODO: Create actual Tetromino pieces (pieces at random)
         Tetromino = GameObject.CreatePrimitive(PrimitiveType.Cube);
         Tetromino.name = "Tetromino";
 
