@@ -13,7 +13,6 @@ public class CameraController : MonoBehaviour {
 
     #region Privates
     private Vector3 startingOffset;
-    private Vector3 currentOffset;
     private Quaternion startingRotation;
     
     private float minFov = 15;
@@ -33,7 +32,6 @@ public class CameraController : MonoBehaviour {
 
         // This is the space between the Pivot Point and the camera
         startingOffset = transform.position - PivotPoint.transform.position;
-        currentOffset = startingOffset;
 
         // resetting things
         startingRotation = transform.rotation;

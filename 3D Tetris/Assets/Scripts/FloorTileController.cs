@@ -19,10 +19,4 @@ public class FloorTileController : MonoBehaviour {
         Debug.Log("Floor Tile Collider Hit, my dude.");
         this.transform.parent.GetComponent<Rigidbody>().SendMessage("OnCollisionEnter", other);
     }
-
-    void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Floor Tile Trigger Hit, my dude.");
-        this.transform.parent.GetComponent<Rigidbody>().SendMessage("OnCollisionEnter", other);
-    }
 }
