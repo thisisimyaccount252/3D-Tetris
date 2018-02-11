@@ -10,7 +10,6 @@ public class CameraController : MonoBehaviour {
     public float RotationSpeed;
 
     public float ScrollSpeed;
-    public ZoomType ZoomType;
 
     #region Privates
     private Vector3 startingOffset;
@@ -52,7 +51,7 @@ public class CameraController : MonoBehaviour {
             ResetCamera();
         }
 
-        Zoom(ZoomType);
+        Zoom();
 	}
 
     void RotateCamera()
@@ -68,7 +67,7 @@ public class CameraController : MonoBehaviour {
         transform.position = PivotPoint.transform.position + startingOffset;
     }
 
-    private void Zoom(ZoomType type)
+    private void Zoom()
     {
         FieldOfViewZoom();
     }
