@@ -31,7 +31,7 @@ public class GameController : MonoBehaviour
 
     // TODO: Public or private?
     public GameObject Tetromino;
-    public float CurrentIncrement; // The tick systesm for how often a block should move
+    public float MovementTick; // The tick systesm for how often a block should move
 
     // Use this for initialization
     void Start()
@@ -57,7 +57,7 @@ public class GameController : MonoBehaviour
     {
         gameTimer++;
 
-        if (gameTimer >= CurrentIncrement)
+        if (gameTimer >= MovementTick)
         {
             // Move the Tetromino down by the fixed distance
             DropPiece();
