@@ -52,9 +52,17 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\Enum\ZoomType.cs" />
      <Compile Include="Assets\Scripts\FloorTileController.cs" />
      <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Models\Enum\TetrominoType.cs" />
+     <Compile Include="Assets\Scripts\Models\Enum\ZoomType.cs" />
+     <Compile Include="Assets\Scripts\Models\LPolyomino.cs" />
+     <Compile Include="Assets\Scripts\Models\SkewPolyomino.cs" />
+     <Compile Include="Assets\Scripts\Models\SquarePolyomino.cs" />
+     <Compile Include="Assets\Scripts\Models\StraightPolyomino.cs" />
+     <Compile Include="Assets\Scripts\Models\Tetromino.cs" />
+     <Compile Include="Assets\Scripts\Models\TetrominoBlock.cs" />
+     <Compile Include="Assets\Scripts\Models\TPolyomino.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

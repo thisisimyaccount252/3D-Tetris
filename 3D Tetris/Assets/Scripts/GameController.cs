@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Enum;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,13 +9,12 @@ public class GameController : MonoBehaviour
 
     private float gameTimer;
     private float gameCeiling;
-    private List<GameObject> FloorTiles;
+    private List<GameObject> FloorTiles; // TODO: Remove Floor Tile Logic
     private Vector3 PieceStartingPosition;
 
     // TODO: Make a class that inherits from GameObject that includes this boolean 
     // so we can assign it to every Tetromino instead of setting it back and forth on the active one
     bool tetrominoCanMove = true;
-
 
     #region Controls
     // By default, these keys just rotate the tetromino
