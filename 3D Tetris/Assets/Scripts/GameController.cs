@@ -49,7 +49,6 @@ public class GameController : MonoBehaviour
         GenerateFloorTiles();
     }
 
-    // Update is called once per frame
     void Update()
     {
         ManipulateTetromino();
@@ -250,9 +249,9 @@ public class GameController : MonoBehaviour
                 if (!blockHit.transform.parent.Equals(tetroBlock.transform.parent))
                 {
                     var newY = blockHit.distance - moveDistance;
-
+                    
                     // If moving the block down will put it inside another object, don't do it.
-                    if (newY < moveDistance)
+                    if (Math.Round(newY, 1) < moveDistance)
                     {
                         Debug.Log("Nope Can't move it. newY = " + newY);
                         return false;
