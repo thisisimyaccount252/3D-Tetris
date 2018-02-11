@@ -25,6 +25,8 @@ public class GameController : MonoBehaviour
 
     // holding shift and pressing one of these keys will move the tetromino
     private KeyCode MoveKey = KeyCode.LeftShift;
+
+    private KeyCode DropIt = KeyCode.Space;
     #endregion Controls
 
     // TODO: Public or private?
@@ -48,7 +50,7 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        RotateTetromino();
+        ManipulateTetromino();
     }
 
     void FixedUpdate()
@@ -63,8 +65,13 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private void RotateTetromino()
+    private void ManipulateTetromino()
     {
+        if (Input.GetKeyDown(DropIt))
+        {
+            DropToFloor();
+        }
+
         if (Input.GetKeyDown(UpKey))
         {
             if (Input.GetKey(MoveKey))
@@ -78,8 +85,7 @@ public class GameController : MonoBehaviour
                 
             }
         }
-
-        if (Input.GetKeyDown(LeftKey))
+        else if (Input.GetKeyDown(LeftKey))
         {
             if (Input.GetKey(MoveKey))
             {
@@ -91,8 +97,7 @@ public class GameController : MonoBehaviour
                 Tetromino.transform.Rotate(Vector3.forward, 90, Space.World);
             }
         }
-
-        if (Input.GetKeyDown(DownKey))
+        else if (Input.GetKeyDown(DownKey))
         {
             if (Input.GetKey(MoveKey))
             {
@@ -104,8 +109,7 @@ public class GameController : MonoBehaviour
                 Tetromino.transform.Rotate(Vector3.right, -90, Space.World);
             }
         }
-
-        if (Input.GetKeyDown(RightKey))
+        else if (Input.GetKeyDown(RightKey))
         {
             if (Input.GetKey(MoveKey))
             {
@@ -116,6 +120,10 @@ public class GameController : MonoBehaviour
             {
                 Tetromino.transform.Rotate(Vector3.forward, -90, Space.World);
             }
+        }
+        else
+        {
+            // Eh. fuck it.
         }
     }
 
@@ -177,6 +185,9 @@ public class GameController : MonoBehaviour
         tetrominoCanMove = true;
     }
 
+    /// <summary>
+    /// Moves Piece down the board by a tiny increment
+    /// </summary>
     void DropPiece()
     {
         if (tetrominoCanMove)
@@ -197,6 +208,14 @@ public class GameController : MonoBehaviour
             // We're done here. Make a new one.
             GenerateTetromino();
         }
+    }
+
+    /// <summary>
+    /// Drops the piece to the floor of the board
+    /// </summary>
+    void DropToFloor()
+    {
+        Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, 0.5f, Tetromino.transform.position.z);
     }
 
     void OnCollisionEnter(Collision other)
