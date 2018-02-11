@@ -16,7 +16,18 @@ namespace Assets.Scripts.Models
         public Tetromino(TetrominoType type, string texture)
         {
             Type = type;
-            TextureName = texture;
+
+            Random random = new Random();
+            int randomNumber = random.Next(0, 500);
+
+            if (randomNumber == 42)
+            {
+                TextureName = "CageFace";
+            }
+            else
+            {
+                TextureName = texture;
+            }
         }
         
         public TetrominoType Type { get; private set; }
