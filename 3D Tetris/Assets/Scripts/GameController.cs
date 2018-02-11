@@ -16,7 +16,6 @@ public class GameController : MonoBehaviour
     // TODO: Make a class that inherits from GameObject that includes this boolean 
     // so we can assign it to every Tetromino instead of setting it back and forth on the active one
     bool tetrominoCanMove = true;
-    float nearestObject;
 
     #region Controls
     // By default, these keys just rotate the tetromino
@@ -215,7 +214,6 @@ public class GameController : MonoBehaviour
     void DropPiece()
     {
         float moveDistance = 0.5f;
-        nearestObject = 0.0f; // Set to the floor by default
 
         if (tetrominoCanMove)
         {
@@ -268,6 +266,7 @@ public class GameController : MonoBehaviour
     /// </summary>
     void DropToFloor()
     {
+        // Fix this
         Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, 0.5f, Tetromino.transform.position.z);
     }
 
