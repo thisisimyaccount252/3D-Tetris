@@ -89,7 +89,7 @@ public class CameraController : MonoBehaviour {
     {
         float fov = Camera.main.fieldOfView;
 
-        fov += Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
+        fov -= Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
 
         fov = Mathf.Clamp(fov, minFov, maxFov);
         Camera.main.fieldOfView = fov;
