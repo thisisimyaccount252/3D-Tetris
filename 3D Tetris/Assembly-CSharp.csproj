@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\Models\Tetromino.cs" />
      <Compile Include="Assets\Scripts\Models\TetrominoBlock.cs" />
      <Compile Include="Assets\Scripts\Models\TPolyomino.cs" />
+     <Compile Include="Assets\Scripts\Utilities\TetrominoPicker.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
