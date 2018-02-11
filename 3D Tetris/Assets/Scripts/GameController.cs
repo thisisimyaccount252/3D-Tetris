@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     // TODO: Make a class that inherits from GameObject that includes this boolean 
     // so we can assign it to every Tetromino instead of setting it back and forth on the active one
     bool tetrominoCanMove = true;
+    float nearestObject;
 
     #region Controls
     // By default, these keys just rotate the tetromino
@@ -214,24 +215,68 @@ public class GameController : MonoBehaviour
     /// </summary>
     void DropPiece()
     {
+        float moveDistance = 0.5f;
+        nearestObject = 0.0f; // Set to the floor by default
+
         if (tetrominoCanMove)
         {
-            var floorLevel = 0.0f;
-
-            var newY = Tetromino.transform.position.y - 0.5f;
-            if (newY < floorLevel)
+            // check under each block making up the tetromino
+            foreach (Transform tetroBlock in Tetromino.transform)
             {
-                Debug.Log("NewY : " + newY);
-                newY = floorLevel;
+                //Vector3 down = tetroBlock.TransformDirection(Vector3.down);
+                Ray blockRay = new Ray(tetroBlock.position, Vector3.down);
+                RaycastHit blockHit;
+
+                // Look to see if there are any objects in your path
+                if (Physics.Raycast(blockRay, out blockHit))
+                {
+                    // if the blocks don't have the same parent.
+                    // Should work as long as the equality operator is checking for the specific instance and not comparing all the fields.
+                    if (!blockHit.transform.parent.Equals(tetroBlock.transform.parent))
+                    {
+                        // If there are objects closer than the current nearest object, change the nearest object to the y axis of the object
+                        var objectInPath_y = blockHit.point.y;
+                        if (objectInPath_y > nearestObject)
+                        {
+                            nearestObject = objectInPath_y;
+                        }
+                    }
+                }
             }
 
-            Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, newY, Tetromino.transform.position.z);
+            // Determine if we can move the piece down
+            if (CanMovePiece(moveDistance, nearestObject))
+            {
+                var newY = Tetromino.transform.position.y - moveDistance;
+                Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, newY, Tetromino.transform.position.z);
+            }
+            else
+            {
+                Debug.Log("Aww Hamberugers. Can't move the shape down anymore.");
+                tetrominoCanMove = false;
+            }
         }
         else
         {
             // We're done here. Make a new one.
             GenerateTetromino();
         }
+    }
+
+    private bool CanMovePiece(float moveDistance, float nearestObject)
+    {
+        foreach (Transform tetroBlock in Tetromino.transform)
+        {
+            var newY = tetroBlock.transform.position.y - moveDistance;
+
+            if (newY <= nearestObject)
+            {
+                Debug.Log("Nope Can't move it. newY = " + newY + ", nearestObject = " + nearestObject);
+                return false;
+            }
+        }
+
+        return true;
     }
 
     /// <summary>
