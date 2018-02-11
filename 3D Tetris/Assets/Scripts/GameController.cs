@@ -266,8 +266,8 @@ public class GameController : MonoBehaviour
     /// </summary>
     void DropToFloor()
     {
-        // Fix this
-        Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, 0.5f, Tetromino.transform.position.z);
+        // TODO: Fix this
+        //Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, 0.5f, Tetromino.transform.position.z);
     }
 
     void OnCollisionEnter(Collision other)

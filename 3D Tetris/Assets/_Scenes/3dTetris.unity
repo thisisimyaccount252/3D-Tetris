@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Tetromino: {fileID: 0}
-  MovementTick: 60
+  MovementTick: 30
 --- !u!54 &707732098
 Rigidbody:
   m_ObjectHideFlags: 0
