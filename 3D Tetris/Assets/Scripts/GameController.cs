@@ -220,39 +220,14 @@ public class GameController : MonoBehaviour
 
         if (tetrominoCanMove)
         {
-            // check under each block making up the tetromino
-            foreach (Transform tetroBlock in Tetromino.transform)
-            {
-                //Vector3 down = tetroBlock.TransformDirection(Vector3.down);
-                Ray blockRay = new Ray(tetroBlock.position, Vector3.down);
-                RaycastHit blockHit;
-
-                // Look to see if there are any objects in your path
-                if (Physics.Raycast(blockRay, out blockHit))
-                {
-                    // if the blocks don't have the same parent.
-                    // Should work as long as the equality operator is checking for the specific instance and not comparing all the fields.
-                    if (!blockHit.transform.parent.Equals(tetroBlock.transform.parent))
-                    {
-                        // If there are objects closer than the current nearest object, change the nearest object to the y axis of the object
-                        var objectInPath_y = blockHit.point.y;
-                        if (objectInPath_y > nearestObject)
-                        {
-                            nearestObject = objectInPath_y;
-                        }
-                    }
-                }
-            }
-
             // Determine if we can move the piece down
-            if (CanMovePiece(moveDistance, nearestObject))
+            if (CanMovePiece(moveDistance))
             {
                 var newY = Tetromino.transform.position.y - moveDistance;
                 Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, newY, Tetromino.transform.position.z);
             }
             else
             {
-                Debug.Log("Aww Hamberugers. Can't move the shape down anymore.");
                 tetrominoCanMove = false;
             }
         }
@@ -263,16 +238,26 @@ public class GameController : MonoBehaviour
         }
     }
 
-    private bool CanMovePiece(float moveDistance, float nearestObject)
+    private bool CanMovePiece(float moveDistance)
     {
         foreach (Transform tetroBlock in Tetromino.transform)
         {
-            var newY = tetroBlock.transform.position.y - moveDistance;
+            Ray blockRay = new Ray(tetroBlock.position, Vector3.down);
+            RaycastHit blockHit;
 
-            if (newY <= nearestObject)
+            if (Physics.Raycast(blockRay, out blockHit))
             {
-                Debug.Log("Nope Can't move it. newY = " + newY + ", nearestObject = " + nearestObject);
-                return false;
+                if (!blockHit.transform.parent.Equals(tetroBlock.transform.parent))
+                {
+                    var newY = blockHit.distance - moveDistance;
+
+                    // If moving the block down will put it inside another object, don't do it.
+                    if (newY < moveDistance)
+                    {
+                        Debug.Log("Nope Can't move it. newY = " + newY);
+                        return false;
+                    }
+                }
             }
         }
 
