@@ -302,7 +302,7 @@ MonoBehaviour:
   PivotPoint: {fileID: 66703343}
   RotationSpeed: 10
   ScrollSpeed: 30
-  ZoomType: 0
+  ZoomType: 1
 --- !u!1 &707732092
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +316,7 @@ GameObject:
   - component: {fileID: 707732094}
   - component: {fileID: 707732093}
   - component: {fileID: 707732097}
+  - component: {fileID: 707732099}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -419,3 +420,15 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &707732099
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 707732092}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 2.220446e-16, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}

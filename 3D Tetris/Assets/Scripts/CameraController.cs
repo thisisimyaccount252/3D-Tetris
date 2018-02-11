@@ -70,14 +70,7 @@ public class CameraController : MonoBehaviour {
 
     private void Zoom(ZoomType type)
     {
-        if (type == ZoomType.FieldOfView)
-        {
-            FieldOfViewZoom();
-        }
-        else if (type == ZoomType.MoveCamera)
-        {
-            CameraZoom();
-        }
+        FieldOfViewZoom();
     }
 
 
@@ -101,8 +94,7 @@ public class CameraController : MonoBehaviour {
     private void CameraZoom()
     {
         var scrollInput = Input.GetAxis("Mouse ScrollWheel") * ScrollSpeed;
-
-        var currentCameraDistance = currentOffset.magnitude;
+        
         if (scrollInput != 0)
         {
             transform.position = Vector3.MoveTowards(transform.position, PivotPoint.transform.position, scrollInput);
