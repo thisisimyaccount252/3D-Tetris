@@ -84,7 +84,7 @@ public class GameController : MonoBehaviour
                 // Make a cube
                 var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 cube.transform.localScale = new Vector3(1, tileHeight, 1);
-                cube.transform.position = new Vector3(tileX, 0, tileZ);
+                cube.transform.position = new Vector3(tileX, -0.01f, tileZ);
                 cube.name = "FloorTileCube";
                 cube.transform.SetParent(transform);
 
@@ -116,6 +116,12 @@ public class GameController : MonoBehaviour
         // Set it at the top of the board
         Tetromino.transform.position = PieceStartingPosition;
 
+        // Doing some shtuff to get physics to work
+        var demPhysicz = Tetromino.AddComponent<Rigidbody>();
+        demPhysicz.useGravity = false;
+        Tetromino.GetComponent<Collider>().material.bounciness = 0;
+
+
         // Add a texture
         Tetromino.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/CageFace") as Texture2D;
         
@@ -126,11 +132,12 @@ public class GameController : MonoBehaviour
     {
         if (tetrominoCanMove)
         {
-            var floorLevel = 0.5f;
+            var floorLevel = 0.0f;
 
-            var newY = Tetromino.transform.position.y - 1;
-            if (newY <= floorLevel)
+            var newY = Tetromino.transform.position.y - 0.5f;
+            if (newY < floorLevel)
             {
+                Debug.Log("NewY : " + newY);
                 newY = floorLevel;
             }
 
