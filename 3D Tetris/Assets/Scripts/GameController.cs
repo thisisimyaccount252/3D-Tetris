@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Enum;
+using Assets.Scripts.Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -164,24 +165,47 @@ public class GameController : MonoBehaviour
         }
     }
 
+    // TODO: Store Game Object in the Tetromino and TetrominoBlock classes and do these manipulations on initialization, my dude.
     void GenerateTetromino()
     {
-        // TODO: Create actual Tetromino pieces (pieces at random)
-        Tetromino = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        Tetromino.name = "Tetromino";
+        // Determine which type of piece is created
+        var tetro = TetrominoPicker.GetRandom();
 
-        // Set it at the top of the board
+        // Create the current piece
+        Tetromino = new GameObject("Tetromino");
         Tetromino.transform.position = PieceStartingPosition;
 
-        // Doing some shtuff to get physics to work
-        var demPhysicz = Tetromino.AddComponent<Rigidbody>();
-        demPhysicz.useGravity = false;
-        Tetromino.GetComponent<Collider>().material.bounciness = 0;
+        // Create tetromino's pivot block
+        var pivot = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        pivot.name = "Pivot";
+        // Make it a child of the tetromino
+        pivot.transform.SetParent(Tetromino.transform);
+        // Apply texture
+        pivot.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + tetro.TextureName) as Texture2D;
+        // Apply physics
+        var pivotPhysics = pivot.AddComponent<Rigidbody>();
+        pivotPhysics.useGravity = false;
+        pivot.GetComponent<Collider>().material.bounciness = 0;
+        // Set it at the top of the board
+        // TODO: do I also have to move the Tetromino?
+        pivot.transform.position = Tetromino.transform.position;
 
+        // Set the rest of the blocks
+        foreach (var blockInfo in tetro.Blocks)
+        {
+            var block = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            block.name = "Block";
+            block.transform.SetParent(Tetromino.transform);
+            block.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + tetro.TextureName) as Texture2D;
+            var blockPhysics = pivot.GetComponent<Rigidbody>();
+            blockPhysics.useGravity = false;
+            block.GetComponent<Collider>().material.bounciness = 0;
 
-        // Add a texture
-        Tetromino.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/CageFace") as Texture2D;
-        
+            // Apply the block offset to the pivot's position
+            Vector3 position = new Vector3(PieceStartingPosition.x + blockInfo.PivotOffsetX, PieceStartingPosition.y + blockInfo.PivotOffsetY, PieceStartingPosition.z + blockInfo.PivotOffsetZ);
+            block.transform.position = position;
+        }
+
         tetrominoCanMove = true;
     }
 
