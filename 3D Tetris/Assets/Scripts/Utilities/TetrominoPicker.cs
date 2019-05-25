@@ -34,26 +34,23 @@ namespace Assets.Scripts.Utilities
             Tetromino tetromino;
             switch (type)
             {
-                //case TetrominoType.I:
-                //    tetromino = new StraightPolyomino(startPosition);
-                //    break;
-                //case TetrominoType.O:
-                //    tetromino = new SquarePolyomino(startPosition);
-                //    break;
-                //case TetrominoType.Z:
-                //    tetromino = new SkewPolyomino(startPosition);
-                //    break;
-                //case TetrominoType.T:
-                //    tetromino = new TPolyomino(startPosition);
-                //    break;
-                //case TetrominoType.L:
-                //    tetromino = new LPolyomino(startPosition);
-                //    break;
-                //default:
-                //    tetromino = new SkewPolyomino(startPosition);
-                //    break;
-                default:
+                case TetrominoType.I:
+                    tetromino = new StraightPolyomino(startPosition);
+                    break;
+                case TetrominoType.O:
+                    tetromino = new SquarePolyomino(startPosition);
+                    break;
+                case TetrominoType.Z:
+                    tetromino = new SkewPolyomino(startPosition);
+                    break;
+                case TetrominoType.T:
                     tetromino = new TPolyomino(startPosition);
+                    break;
+                case TetrominoType.L:
+                    tetromino = new LPolyomino(startPosition);
+                    break;
+                default:
+                    tetromino = new SkewPolyomino(startPosition);
                     break;
             }
 
