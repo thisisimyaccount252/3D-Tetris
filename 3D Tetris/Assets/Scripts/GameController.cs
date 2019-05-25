@@ -165,46 +165,10 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // TODO: Store Game Object in the Tetromino and TetrominoBlock classes and do these manipulations on initialization, my dude.
     void GenerateTetromino()
     {
         // Determine which type of piece is created
-        CurrentPiece = TetrominoPicker.GetRandom();
-
-        // Set the Tetromino's position
-        CurrentPiece.GameObject.transform.position = PieceStartingPosition;
-
-        // Create tetromino's pivot block
-        var pivot = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        pivot.name = "Pivot";
-        // Make it a child of the tetromino
-        pivot.transform.SetParent(CurrentPiece.GameObject.transform);
-        // Apply texture
-        pivot.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + CurrentPiece.TextureName) as Texture2D;
-        // Apply physics
-        var pivotPhysics = pivot.AddComponent<Rigidbody>();
-        pivotPhysics.useGravity = false;
-        pivot.GetComponent<Collider>().material.bounciness = 0;
-        // Set it at the top of the board
-        // TODO: do I also have to move the Tetromino?
-        pivot.transform.position = CurrentPiece.GameObject.transform.position;
-
-        // Set the rest of the blocks
-        foreach (var blockInfo in CurrentPiece.Blocks)
-        {
-            var block = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            block.name = "Block";
-            block.transform.SetParent(CurrentPiece.GameObject.transform);
-            block.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + CurrentPiece.TextureName) as Texture2D;
-            var blockPhysics = pivot.GetComponent<Rigidbody>();
-            blockPhysics.useGravity = false;
-            block.GetComponent<Collider>().material.bounciness = 0;
-
-            // Apply the block offset to the pivot's position
-            Vector3 position = new Vector3(PieceStartingPosition.x + blockInfo.PivotOffsetX, PieceStartingPosition.y + blockInfo.PivotOffsetY, PieceStartingPosition.z + blockInfo.PivotOffsetZ);
-            block.transform.position = position;
-        }
-
+        CurrentPiece = TetrominoPicker.GetRandom(PieceStartingPosition);
         tetrominoCanMove = true;
     }
 
