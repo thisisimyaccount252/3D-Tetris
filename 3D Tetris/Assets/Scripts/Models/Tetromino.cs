@@ -11,7 +11,7 @@ namespace Assets.Scripts.Models
     public class Tetromino
     {
         private static readonly string _tetrominoName = "Tetromino";
-        private static readonly string _pviotBlockName = "Pivot";
+        private static readonly string _pivotBlockName = "Pivot";
         private static readonly string _blockName = "Block";
 
         /// <summary>
@@ -45,42 +45,57 @@ namespace Assets.Scripts.Models
         private GameObject SetupGameObject(Vector3 startingPosition)
         {
             GameObject gameObj = new GameObject(_tetrominoName);
-
-            // Create the block around which the shape will pivot when moving in three dimensions
-            var pivot = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            pivot.name = _pviotBlockName;
-
+            
             // Set the Tetromino's position
             gameObj.transform.position = startingPosition;
 
-            // Make it a child of the tetromino
-            pivot.transform.SetParent(gameObj.transform);
-            // Apply texture
-            pivot.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + TextureName) as Texture2D;
-            // Apply physics
-            var pivotPhysics = pivot.AddComponent<Rigidbody>();
-            pivotPhysics.useGravity = false;
-            pivot.GetComponent<Collider>().material.bounciness = 0;
+            // Create the block around which the shape will pivot when moving in three dimensions
+            var pivot = GetTetrominoBlock(_pivotBlockName, gameObj);
+
             // Set it at the top of the board
             pivot.transform.position = gameObj.transform.position;
 
             // Set the rest of the blocks
             foreach (var blockInfo in Blocks)
             {
-                var block = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                block.name = _blockName;
-                block.transform.SetParent(gameObj.transform);
-                block.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + TextureName) as Texture2D;
-                var blockPhysics = pivot.GetComponent<Rigidbody>();
-                blockPhysics.useGravity = false;
-                block.GetComponent<Collider>().material.bounciness = 0;
+                // Get the block
+                var block = GetTetrominoBlock(_blockName, gameObj);
 
-                // Apply the block offset to the pivot's position
+                // Set the block's position by applying the block offset to the object's starting position. Offset is relative to the pivot block
                 Vector3 position = new Vector3(startingPosition.x + blockInfo.PivotOffsetX, startingPosition.y + blockInfo.PivotOffsetY, startingPosition.z + blockInfo.PivotOffsetZ);
                 block.transform.position = position;
             }
 
             return gameObj;
+        }
+        
+        // TODO: Move this logic to the Tetromino Block itself
+        private GameObject GetTetrominoBlock(string name, GameObject parent)
+        {
+            // Give it life and a name
+            var block = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            block.name = name;
+
+            // Set its teture
+            block.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + TextureName) as Texture2D;
+
+            // Do the physics thing
+            MakeItTetrisy(ref block);
+
+            // Tell it whose its daddy
+            block.transform.SetParent(parent.transform);
+
+            return block;
+        }
+
+        private void MakeItTetrisy(ref GameObject block)
+        {
+            // Set the physics to be more Tetrisy
+            // TBH I doubt this code does ANYTHING except setting bounciness to zero
+            //var blockPhysics = pivot.GetComponent<Rigidbody>();
+            var blockPhysics = block.AddComponent<Rigidbody>();
+            blockPhysics.useGravity = false;
+            block.GetComponent<Collider>().material.bounciness = 0;
         }
     }
 }
