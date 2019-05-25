@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Models.Constants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Assets.Scripts.Models
     public class SquarePolyomino : Tetromino
     {
         public SquarePolyomino()
-            : base(Enum.TetrominoType.O, "SquarePolyomino")
+            : base(Enum.TetrominoType.O, TextureNames.SquarePolyomino)
         {
             Blocks = new List<TetrominoBlock>()
             {
