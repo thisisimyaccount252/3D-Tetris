@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Enum;
+using Assets.Scripts.Models;
 using Assets.Scripts.Utilities;
 using System;
 using System.Collections;
@@ -31,7 +32,7 @@ public class GameController : MonoBehaviour
     #endregion Controls
 
     // TODO: Public or private?
-    public GameObject Tetromino;
+    public Tetromino CurrentPiece;
     public float MovementTick; // The tick systesm for how often a block should move
 
     // Use this for initialization
@@ -76,12 +77,12 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetKey(MoveKey))
             {
-                var newZ = Tetromino.transform.position.z + 1;
-                Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, Tetromino.transform.position.y, newZ);
+                var newZ = CurrentPiece.GameObject.transform.position.z + 1;
+                CurrentPiece.GameObject.transform.position = new Vector3(CurrentPiece.GameObject.transform.position.x, CurrentPiece.GameObject.transform.position.y, newZ);
             }
             else
             {
-                Tetromino.transform.Rotate(Vector3.right, 90, Space.World);
+                CurrentPiece.GameObject.transform.Rotate(Vector3.right, 90, Space.World);
                 
             }
         }
@@ -89,36 +90,36 @@ public class GameController : MonoBehaviour
         {
             if (Input.GetKey(MoveKey))
             {
-                var newX = Tetromino.transform.position.x - 1;
-                Tetromino.transform.position = new Vector3(newX, Tetromino.transform.position.y, Tetromino.transform.position.z);
+                var newX = CurrentPiece.GameObject.transform.position.x - 1;
+                CurrentPiece.GameObject.transform.position = new Vector3(newX, CurrentPiece.GameObject.transform.position.y, CurrentPiece.GameObject.transform.position.z);
             }
             else
             {
-                Tetromino.transform.Rotate(Vector3.forward, 90, Space.World);
+                CurrentPiece.GameObject.transform.Rotate(Vector3.forward, 90, Space.World);
             }
         }
         else if (Input.GetKeyDown(DownKey))
         {
             if (Input.GetKey(MoveKey))
             {
-                var newZ = Tetromino.transform.position.z - 1;
-                Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, Tetromino.transform.position.y, newZ);
+                var newZ = CurrentPiece.GameObject.transform.position.z - 1;
+                CurrentPiece.GameObject.transform.position = new Vector3(CurrentPiece.GameObject.transform.position.x, CurrentPiece.GameObject.transform.position.y, newZ);
             }
             else
             {
-                Tetromino.transform.Rotate(Vector3.right, -90, Space.World);
+                CurrentPiece.GameObject.transform.Rotate(Vector3.right, -90, Space.World);
             }
         }
         else if (Input.GetKeyDown(RightKey))
         {
             if (Input.GetKey(MoveKey))
             {
-                var newX = Tetromino.transform.position.x + 1;
-                Tetromino.transform.position = new Vector3(newX, Tetromino.transform.position.y, Tetromino.transform.position.z);
+                var newX = CurrentPiece.GameObject.transform.position.x + 1;
+                CurrentPiece.GameObject.transform.position = new Vector3(newX, CurrentPiece.GameObject.transform.position.y, CurrentPiece.GameObject.transform.position.z);
             }
             else
             {
-                Tetromino.transform.Rotate(Vector3.forward, -90, Space.World);
+                CurrentPiece.GameObject.transform.Rotate(Vector3.forward, -90, Space.World);
             }
         }
         else
@@ -168,34 +169,33 @@ public class GameController : MonoBehaviour
     void GenerateTetromino()
     {
         // Determine which type of piece is created
-        var tetro = TetrominoPicker.GetRandom();
+        CurrentPiece = TetrominoPicker.GetRandom();
 
-        // Create the current piece
-        Tetromino = new GameObject("Tetromino");
-        Tetromino.transform.position = PieceStartingPosition;
+        // Set the Tetromino's position
+        CurrentPiece.GameObject.transform.position = PieceStartingPosition;
 
         // Create tetromino's pivot block
         var pivot = GameObject.CreatePrimitive(PrimitiveType.Cube);
         pivot.name = "Pivot";
         // Make it a child of the tetromino
-        pivot.transform.SetParent(Tetromino.transform);
+        pivot.transform.SetParent(CurrentPiece.GameObject.transform);
         // Apply texture
-        pivot.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + tetro.TextureName) as Texture2D;
+        pivot.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + CurrentPiece.TextureName) as Texture2D;
         // Apply physics
         var pivotPhysics = pivot.AddComponent<Rigidbody>();
         pivotPhysics.useGravity = false;
         pivot.GetComponent<Collider>().material.bounciness = 0;
         // Set it at the top of the board
         // TODO: do I also have to move the Tetromino?
-        pivot.transform.position = Tetromino.transform.position;
+        pivot.transform.position = CurrentPiece.GameObject.transform.position;
 
         // Set the rest of the blocks
-        foreach (var blockInfo in tetro.Blocks)
+        foreach (var blockInfo in CurrentPiece.Blocks)
         {
             var block = GameObject.CreatePrimitive(PrimitiveType.Cube);
             block.name = "Block";
-            block.transform.SetParent(Tetromino.transform);
-            block.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + tetro.TextureName) as Texture2D;
+            block.transform.SetParent(CurrentPiece.GameObject.transform);
+            block.GetComponent<Renderer>().material.mainTexture = Resources.Load("Textures/" + CurrentPiece.TextureName) as Texture2D;
             var blockPhysics = pivot.GetComponent<Rigidbody>();
             blockPhysics.useGravity = false;
             block.GetComponent<Collider>().material.bounciness = 0;
@@ -220,8 +220,8 @@ public class GameController : MonoBehaviour
             // Determine if we can move the piece down
             if (CanMovePiece(moveDistance))
             {
-                var newY = Tetromino.transform.position.y - moveDistance;
-                Tetromino.transform.position = new Vector3(Tetromino.transform.position.x, newY, Tetromino.transform.position.z);
+                var newY = CurrentPiece.GameObject.transform.position.y - moveDistance;
+                CurrentPiece.GameObject.transform.position = new Vector3(CurrentPiece.GameObject.transform.position.x, newY, CurrentPiece.GameObject.transform.position.z);
             }
             else
             {
@@ -237,7 +237,7 @@ public class GameController : MonoBehaviour
 
     private bool CanMovePiece(float moveDistance)
     {
-        foreach (Transform tetroBlock in Tetromino.transform)
+        foreach (Transform tetroBlock in CurrentPiece.GameObject.transform)
         {
             Ray blockRay = new Ray(tetroBlock.position, Vector3.down);
             RaycastHit blockHit;

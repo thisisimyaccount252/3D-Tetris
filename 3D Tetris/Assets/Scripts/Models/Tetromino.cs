@@ -21,13 +21,13 @@ namespace Assets.Scripts.Models
         {
             Type = type;
             TextureName = IsGodPiece() ? TextureNames.TheOneTrueGod : texture;
-            TetroObject = new GameObject(tetrominoName);
+            GameObject = new GameObject(tetrominoName);
         }
         
         public TetrominoType Type { get; private set; }
         public string TextureName { get; private set; }
         public List<TetrominoBlock> Blocks { get; protected set; }
-        public GameObject TetroObject { get; set; }
+        public GameObject GameObject { get; set; }
 
         private bool IsGodPiece()
         {
